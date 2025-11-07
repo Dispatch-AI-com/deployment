@@ -3,16 +3,16 @@ name: dispatchai
 services:
   frontend:
     build:
-      context: ../../apps/frontend
+      context: ./apps/frontend
       dockerfile: Dockerfile.dev
     env_file:
-      - ../../.env.shared
-      - ../../.env.dev
-      - ../../apps/frontend/.env.local
+      - ./.env.shared
+      - ./.env.dev
+      - ./apps/frontend/.env.local
     ports:
       - "3000:3000"
     volumes:
-      - ../../apps/frontend:/app
+      - ./apps/frontend:/app
       - /app/node_modules
     depends_on:
       api:
@@ -21,7 +21,7 @@ services:
 
   api:
     build:
-      context: ../../apps/backend
+      context: ./apps/backend
       dockerfile: Dockerfile.dev
     container_name: dispatchai-api
     restart: unless-stopped
@@ -33,16 +33,16 @@ services:
       redis:
         condition: service_healthy
     env_file:
-      - ../../.env.shared
-      - ../../.env.dev
-      - ../../apps/backend/.env.local
+      - ./.env.shared
+      - ./.env.dev
+      - ./apps/backend/.env.local
     volumes:
-      - ../../apps/backend:/app
+      - ./apps/backend:/app
       - /app/node_modules
 
   ai:
     build:
-      context: ../../apps/ai
+      context: ./apps/ai
       dockerfile: Dockerfile.dev
     container_name: dispatchai-ai
     restart: unless-stopped
@@ -54,11 +54,11 @@ services:
       redis:
         condition: service_healthy
     env_file:
-      - ../../.env.shared
-      - ../../.env.dev
-      - ../../apps/ai/.env.local
+      - ./.env.shared
+      - ./.env.dev
+      - ./apps/ai/.env.local
     volumes:
-      - ../../apps/ai:/app
+      - ./apps/ai:/app
 
   mongo:
     image: mongo:7
@@ -95,7 +95,7 @@ services:
   #   restart: unless-stopped
   #   command: tunnel run
   #   volumes:
-  #     - ../../apps/backend/cloudflared:/etc/cloudflared
+  #     - ./apps/backend/cloudflared:/etc/cloudflared
   #   depends_on:
   #     api:
   #       condition: service_started
