@@ -3,7 +3,9 @@ set -euo pipefail
 
 REGION="ap-southeast-2"
 PROJECT="dispatchai-uat"
+UAT_FRONTEND_ECR="381492119078.dkr.ecr.ap-southeast-2.amazonaws.com/dispatchai-uat-frontend"
 IMAGE_TAG="${1:?Usage: deploy-frontend-uat.sh <image-tag>}"
+export UAT_FRONTEND_ECR
 export IMAGE_TAG
 
 echo "========================================================================"
