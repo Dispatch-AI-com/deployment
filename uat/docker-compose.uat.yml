@@ -5,7 +5,7 @@ networks:
 
 services:
   frontend:
-    image: 381492119078.dkr.ecr.ap-southeast-2.amazonaws.com/dispatchai-frontend-uat:${IMAGE_TAG}
+    image: ${UAT_FRONTEND_ECR}:${IMAGE_TAG}
     container_name: dispatchai-frontend-uat
     ports:
       - "3000:3000"
@@ -14,7 +14,7 @@ services:
       - dispatchai-uat-network
       
   api:
-    image: 381492119078.dkr.ecr.ap-southeast-2.amazonaws.com/dispatchai-backend-uat:${IMAGE_TAG}
+    image: ${UAT_BACKEND_API_ECR}:${IMAGE_TAG}
     container_name: dispatchai-api-uat
     env_file:
       - .env.uat
@@ -29,7 +29,7 @@ services:
       - dispatchai-uat-network
 
   ai:
-    image: 381492119078.dkr.ecr.ap-southeast-2.amazonaws.com/dispatchai-backend-ai-uat:${IMAGE_TAG}
+    image: ${UAT_BACKEND_AI_ECR}:${IMAGE_TAG}
     container_name: dispatchai-ai-uat
     env_file:
       - .env.uat
