@@ -5,6 +5,8 @@ REGION="ap-southeast-2"
 PROJECT="dispatchai-prod"
 PROD_BACKEND_AI_ECR="381492119078.dkr.ecr.ap-southeast-2.amazonaws.com/dispatchai-prod-backend-ai"
 IMAGE_TAG="${1:?Usage: deploy-ai-prod.sh <image-tag>}"
+
+# Export environment variables for docker-compose
 export PROD_BACKEND_AI_ECR
 export IMAGE_TAG
 
@@ -26,6 +28,11 @@ jq -r 'sort_by(.[0])[] | "\((.[0]|split("/")|last))=\(.[1])"' > .env.prod
 echo "========================================================================"
 echo "🚀 Deploying DispatchAI AI Services to PRODUCTION using Image Tag:$IMAGE_TAG 🚀"
 echo "========================================================================"
+
+echo "----------------------------------------------"
+echo "Logging in to Amazon ECR ..."
+aws ecr get-login-password --region "$REGION" | docker login --username AWS --password-stdin "$PROD_BACKEND_AI_ECR"
+
 echo "Checking for Docker network ..."
 if ! docker network inspect dispatchai-prod-network >/dev/null 2>&1; then
   echo "Creating dispatchai-prod-network ..."
